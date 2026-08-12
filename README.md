@@ -213,7 +213,7 @@ O custo deverá ser definido de acordo com as tecnologias escolhidas, tempo de d
 O **Catálogo de Filmes** será um sistema simples para substituir a planilha utilizada pelo cliente, permitindo organizar seus filmes de maneira mais prática e visual.
 
 A primeira versão terá como foco as funções principais de **login, cadastro, visualização, edição e exclusão de filmes**, além do armazenamento das capas dos filmes.
-<<<<<<< HEAD
+
 
 **Abaixo fluxograma sobre a visão geral**
 ![](Diagrama%20sem%20nome.jpg)
