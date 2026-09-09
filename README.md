@@ -219,3 +219,7 @@ A primeira versão terá como foco as funções principais de **login, cadastro,
 ![](Diagrama%20sem%20nome.jpg)
 =======
 >>>>>>> 81bd2aa29a48b739253395d60726b2924f22826e
+
+
+**Abaixo foto do modelo logico**
+![](modelo%20logico.png)
