@@ -1,3 +1,4 @@
+
 INSERT INTO usuarios (nome, email, senha, atualizado_em)
 VALUES
 ('Nicolas', 'nicolas@gmail.com', '123456', NOW()),
