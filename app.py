@@ -1,6 +1,10 @@
 from email import message
 
-from flask import Flask, request, jsonify
+
+from flask import Flask, request, jsonify, render_template
+from psycopg2.extras import RealDictCursor
+
+from database import criar_conexao
 
 app = Flask(__name__)
 
@@ -9,29 +13,58 @@ app = Flask(__name__)
 def home():
     return 'Hello World!'
 
-@app.route('/usuarios', methods=['GET'])
-def buscar_usuarios():
-    usuario = {
-        "nome": "Nicolas",
-        "idade": 19,
-        "telefone": "(19) 988446677"
-    }
-    return usuario
+@app.route('/filme', methods=['GET'])
+def listar_filmes():
+    conn = criar_conexao()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
 
-@app.route('/produtos', methods=['POST'])
-def cadastrar_produtos():
+    cursor.execute("SELECT * FROM filmes")
+    resultado = cursor.fetchall()
+
+    conn.close()
+
+    return render_template("index.html", filmes=resultado)
+
+@app.route('/filme', methods=['POST'])
+def cadastrar_filme():
     dados = request.get_json()
 
     if not dados:
         return jsonify({"erro":"Daods invalidos"}),400
 
-    print(f"Novo produto:{dados}")
+    print(f"Novo filme:{dados}")
+
+    conn = criar_conexao()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        '''
+        INSERT INTO filmeS (usuario_id, titulo,ano_lançamento,
+         genero, nota, capa_url) 
+         VALUES( %s, %s, %s, %s, %s, %s)
+         RETURNING id;
+         
+        ''',
+        (dados['usuario_id'], dados['titulo'], dados['ano_lançamento'],
+         dados['genero'], dados['nota'], dados['capa_url'])
+
+
+    )
+
+    novo_id = cursor.fetchone()[0]
+    conn.commit()
+    conn.close()
+
+
+
+
     return jsonify({
-        'message':'produto cadastrado',
-        "produto cadastrado":dados
+        'message':'filme cadastrado',
+        "filme cadastrado":dados
+
     }), 200
 
-@app.route('/produtos', methods=['PUT'])
+@app.route('/filme', methods=['PUT'])
 def atualizar_produto():
     produto = {
     "id": 1,
@@ -56,6 +89,20 @@ def atualizar_produto():
 
     else:
         return jsonify({"message":"produto nao encontrado"}), 404
+
+
+
+
+@app.route('/teste/db', methods=['GET'])
+def testar_conexao():
+    conn = criar_conexao()
+    print('Criando conexao:', conn)
+    conn.close()
+    return jsonify({"message": "Banco conectado com sucesso!"}), 200
+
+
+
+
 
 
 
