@@ -572,3 +572,15 @@ body {
         font-size: 22px;
     }
 }
+button{
+    color: #e50914;
+}
+
+.btn-delete {
+    padding: 5px 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
